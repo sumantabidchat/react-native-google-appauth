@@ -33,6 +33,29 @@
 import RNGoogleAppauth from 'react-native-google-appauth';
 
 // TODO: What to do with the module?
-RNGoogleAppauth;
+
+processGoogleSignIn = async () => {
+  try {
+      const gtt = await GoogleAppauth.signIn();
+      console.log('Success response', JSON.parse(gtt));
+    } catch (err) {
+      console.log('ERROR ', err);
+    }
+}
+
+.....
+
+render() {
+  return (
+    .....
+    <Button
+      onPress={this.processGoogleSignIn}
+      title="SignIn"
+      color="#841584"
+      accessibilityLabel="Click Me to signIn"
+    />
+  )
+}
+
 ```
   

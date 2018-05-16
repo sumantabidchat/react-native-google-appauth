@@ -170,7 +170,7 @@ public class NewMainActivity extends ReactActivity {
                                                         jsonObject.put("expires_at", tokenResponse.accessTokenExpirationTime);
                                                         jsonObject.put("id_token", tokenResponse.idToken);
                                                         jsonObject.put("refresh_token", tokenResponse.refreshToken);
-                                                        jsonObject.put("sub", userInfo.optString("sub"));
+                                                        jsonObject.put("user_id", userInfo.optString("sub"));
                                                         jsonObject.put("name", userInfo.optString("name"));
                                                         jsonObject.put("given_name", userInfo.optString("given_name"));
                                                         jsonObject.put("family_name", userInfo.optString("family_name"));

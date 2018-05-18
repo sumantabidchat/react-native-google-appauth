@@ -1,18 +1,23 @@
 
 {
   "name": "react-native-google-appauth",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.1",
+  "description": "This is a react native library to integrate google sign in with youtube brand account.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "react-native"
+    "react-native", "appAuth", "Google signin", "Youtube signin", "Youtube brand account signin", "Android"
   ],
-  "author": "",
-  "license": "",
+  "author": "Sumanta Bhui, Mukesh Sharma",
+  "license": "MIT",
   "peerDependencies": {
     "react-native": "^0.41.2"
+  },
+  "homepage": "https://github.com/bhuisumanta/react-native-google-appauth#readme",
+  "bugs": { 
+    "url" : "https://github.com/bhuisumanta/react-native-google-appauth/issues",
+    "email" : "sumanta.bhui@bidchat.com"
   }
 }

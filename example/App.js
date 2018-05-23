@@ -12,7 +12,7 @@ import {
   View,
   Button
 } from 'react-native';
-import GoogleAppauth from 'react-native-google-appauth';
+import { configure, signIn, signOut } from 'react-native-google-appauth';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
@@ -23,32 +23,74 @@ const instructions = Platform.select({
 
 type Props = {};
 export default class App extends Component<Props> {
-  getName = async () => {
+  state = {
+    user: {},
+    signedIn: false
+  }
+
+  componentDidMount() {
+    const authf = configure({
+      redirectUrl: "com.bidchat.reactnative.appauth:/oauth2callback",
+      clientId: "455163333963-lrh581v65qbfftssu0pitb57fc4dj3mi.apps.googleusercontent.com",
+      scopes: ["https://www.googleapis.com/auth/youtube.readonly", "openid", "email", "profile"],
+      additionalParameters: {}
+    });
+    authf.then((data) => {
+      console.log("reactNative---- LoggedIn", data);
+      if (data && (typeof data === "object") && data.id_token) {
+        this.setState({ signedIn: true, user: data });
+      }
+    })
+      .catch((err) => {
+        console.log("reactNative---- LoggedInError", err);
+      });
+  }
+  handleLogin = async () => {
     try {
-      const gtt = await GoogleAppauth.signIn();
-      console.log('console from reat-native----', JSON.parse(gtt));
+      const data = await signIn();
+      console.log('console from reat-native----', data);
+      if (data && (typeof data === "object") && data.id_token) {
+        this.setState({ signedIn: true, user: data });
+      }
     } catch (err) {
       console.log('ERROR from reat-native----', err);
     }
   }
+
+  handleLogOut = async () => {
+    const logout = await signOut();
+    if (logout && (typeof logout === "object") && logout.status) {
+      this.setState({ signedIn: false, user: {} });
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
-        <Button
-          onPress={this.getName}
-          title="Click Me"
-          color="#841584"
-          accessibilityLabel="Click Me about this purple button"
-        />
+        {this.state.signedIn ? (
+          <View>
+            <Text style={[styles.welcome, { fontWeight: 'bold' }]}>
+              {this.state.user.name}
+            </Text>
+            <Text style={[styles.welcome, { fontWeight: 'normal' }]}>
+              {this.state.user.email}
+            </Text>
+            <Button
+              onPress={this.handleLogOut}
+              title="Sign Out"
+              color="#841584"
+              accessibilityLabel="Click Me about this purple button"
+            />
+          </View>
+        ) : (
+            <Button
+              onPress={this.handleLogin}
+              title="Sign In"
+              color="#841584"
+              accessibilityLabel="Click Me about this purple button"
+            />
+          )}
+
       </View>
     );
   }
